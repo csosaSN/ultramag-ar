@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AR test · Ultra-Mag pallet</title>
+<style>
+  body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;padding:20px;background:#f2f2f0;color:#0e2a33;max-width:560px}
+  h1{font-size:22px;margin:0 0 6px}
+  p{font-size:14px;line-height:1.45;color:#4b5d62;margin:6px 0 14px}
+  .t{display:block;background:#fff;border-radius:12px;padding:14px 16px;margin:12px 0;text-decoration:none;color:inherit;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+  .t b{display:block;font-size:17px;color:#064452;margin-bottom:4px}
+  .t span{font-size:13px;color:#5d6f74}
+  .n{display:inline-block;background:#00a6ad;color:#fff;border-radius:50%;width:22px;height:22px;text-align:center;line-height:22px;font-size:13px;font-weight:700;margin-right:8px}
+  code{font-size:12px;word-break:break-all;background:#fff;padding:8px;border-radius:8px;display:block;margin-top:8px}
+</style>
+</head>
+<body>
+  <h1>Android AR test</h1>
+  <p>Open this page in <b>Chrome</b>. Tap each test in order, then tell us which ones worked. Use the back button to return here after each one.</p>
+
+  <a class="t" id="t1"><b><span class="n">1</span>Google sample in AR</b><span>Google’s own test model. If this fails, the phone’s AR setup is the problem, not our file.</span></a>
+  <a class="t" id="t2"><b><span class="n">2</span>Our pallet in 3D only (no AR)</b><span>Checks that Google’s viewer can open our file.</span></a>
+  <a class="t" id="t3"><b><span class="n">3</span>Our pallet in AR</b><span>Opens our pallet straight in AR. Point at the floor and move the phone slowly.</span></a>
+
+  <p>Device info (please include in your reply):</p>
+  <code id="ua"></code>
+
+<script>
+  const base = location.href.replace(/test\.html.*$/, '');
+  const fb = encodeURIComponent(base + 'test.html#fallback');
+  function sv(file, mode, title){
+    return 'intent://arvr.google.com/scene-viewer/1.0?file=' + encodeURIComponent(file) +
+      '&mode=' + mode + '&title=' + encodeURIComponent(title) +
+      '#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=' + fb + ';end;';
+  }
+  document.getElementById('t1').href = sv('https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf','ar_only','Google sample');
+  document.getElementById('t2').href = sv(base + 'pallet_sceneviewer.glb','3d_only','Ultra-Mag pallet');
+  document.getElementById('t3').href = sv(base + 'pallet_sceneviewer.glb','ar_only','Ultra-Mag pallet');
+  document.getElementById('ua').textContent = navigator.userAgent + (location.hash === '#fallback' ? '  [last test fell back: viewer could not open]' : '');
+</script>
+</body>
+</html>
