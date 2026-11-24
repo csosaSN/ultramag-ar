@@ -65,11 +65,11 @@
 
   <main>
     <model-viewer id="viewer"
-      src="pallet_android.glb"
+      src="pallet_android_lite.glb"
       ios-src="pallet_ios.usdz#allowsContentScaling=0"
       poster="poster.jpg"
       alt="Ultra-Mag Costco pallet display, six layers of trays on a blue pallet"
-      ar ar-modes="webxr quick-look" ar-scale="fixed" ar-placement="floor"
+      ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor"
       camera-controls touch-action="pan-y" shadow-intensity="1" shadow-softness="0.8"
       camera-orbit="-40deg 72deg auto" interaction-prompt="none" loading="eager">
       <button slot="ar-button" class="ar-btn" id="arBtn">
@@ -85,7 +85,7 @@
     <p><strong>Open this on your phone to see it in AR.</strong><br>Scan the code with your iPhone or Android camera, then tap <em>View in your space</em> and point at the floor.</p>
   </section>
 
-  <p class="note" id="note">Tap <strong>View in your space</strong>, then slowly scan the floor with your camera. The pallet appears at its real size, so step back and walk around it.</p>
+  <p class="note" id="note">Tap <strong>View in your space</strong>, then slowly move your phone so the camera can see the floor. The pallet appears at its real size, so step back and walk around it.</p>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script>
@@ -109,7 +109,7 @@
 
   viewer.addEventListener('ar-status', (e) => {
     if (e.detail.status === 'failed') {
-      note.innerHTML = 'AR couldn’t start on this device. Make sure <strong>Google Play Services for AR</strong> is installed and up to date, and you’re using Chrome. You can still explore the model in 3D above.';
+      note.innerHTML = 'AR couldn’t start on this device. Make sure the <strong>Google</strong> app and <strong>Google Play Services for AR</strong> are installed and up to date. You can still explore the model in 3D above.';
     }
   });
   viewer.addEventListener('load', () => {
