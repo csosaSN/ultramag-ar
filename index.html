@@ -5,9 +5,10 @@
 <script>
   (function(){
     var ua=navigator.userAgent;
-    var ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-    if(ios) location.replace('apple.html'+location.search);
-    else if(/Android/.test(ua)) location.replace('android.html'+location.search);
+    var android=/Android/.test(ua);
+    var ios=!android&&(/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1));
+    if(android) location.replace('android.html'+location.search);
+    else if(ios) location.replace('apple.html'+location.search);
   })();
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -22,7 +23,7 @@
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.4.0/model-viewer.min.js"></script>
 </head>
 <body>
-  <div class="announce">Source Naturals<span>●</span>Ultra-Mag™ Costco pallet display preview</div>
+  <div class="announce"><b class="wide">Source Naturals<span>●</span></b>Ultra-Mag™ Costco display preview</div>
   <header class="site-header">
     <a class="logo" id="logo" href="https://www.sourcenaturals.com" aria-label="Source Naturals">
       <img src="https://www.sourcenaturals.com/cdn/shop/files/LOGOMARK-blue.svg" alt="Source Naturals" onerror="this.parentNode.classList.add('fallback')">
@@ -64,8 +65,8 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script>
   const ua=navigator.userAgent;
-  const isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
   const isAndroid=/Android/.test(ua);
+  const isIOS=!isAndroid&&(/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1));
   const note=document.getElementById('note');
   const viewer=document.getElementById('viewer');
   viewer.src=(isIOS||isAndroid)?'pallet_sceneviewer.glb':'pallet_android_lite.glb';
