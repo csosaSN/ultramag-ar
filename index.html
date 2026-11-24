@@ -65,7 +65,6 @@
 
   <main>
     <model-viewer id="viewer"
-      src="pallet_android_lite.glb"
       ios-src="pallet_ios.usdz#allowsContentScaling=0"
       poster="poster.jpg"
       alt="Ultra-Mag Costco pallet display, six layers of trays on a blue pallet"
@@ -95,6 +94,8 @@
   const isChrome = /Chrome\//.test(ua) && !/EdgA|SamsungBrowser|OPR|Firefox|FxiOS/.test(ua);
   const note = document.getElementById('note');
   const viewer = document.getElementById('viewer');
+  // Android gets the Scene Viewer-compliant model (<10 MB, 2K textures, 8 materials); everyone else the sharper one
+  viewer.src = isAndroid ? 'pallet_sceneviewer.glb' : 'pallet_android_lite.glb';
 
   if (!isIOS && !isAndroid) {
     document.body.classList.add('is-desktop');
