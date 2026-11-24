@@ -94,8 +94,8 @@
   const isChrome = /Chrome\//.test(ua) && !/EdgA|SamsungBrowser|OPR|Firefox|FxiOS/.test(ua);
   const note = document.getElementById('note');
   const viewer = document.getElementById('viewer');
-  // Android gets the Scene Viewer-compliant model (<10 MB, 2K textures, 8 materials); everyone else the sharper one
-  viewer.src = isAndroid ? 'pallet_sceneviewer.glb' : 'pallet_android_lite.glb';
+  // Phones get the light 9.7 MB model for the 3D preview (and Scene Viewer on Android); computers get the sharper one
+  viewer.src = (isAndroid || isIOS) ? 'pallet_sceneviewer.glb' : 'pallet_android_lite.glb';
 
   if (!isIOS && !isAndroid) {
     document.body.classList.add('is-desktop');
