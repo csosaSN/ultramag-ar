@@ -55,6 +55,14 @@ footer{margin-top:36px;background:var(--steel);color:#fff;border-radius:40px 40p
 .foot .tag{font-family:var(--serif);font-size:22px;letter-spacing:-.01em}
 .foot small{font-family:var(--mono);font-size:11px;letter-spacing:.2px;text-transform:uppercase;opacity:.85}
 
+@media (min-width:900px){
+  .layout{display:grid;grid-template-columns:minmax(300px,.85fr) 1.5fr;gap:28px;max-width:1240px;width:100%;margin:0 auto;padding:30px 24px 0;align-items:stretch}
+  .layout .hero{padding:24px 0 0;margin:0;align-self:center}
+  .layout .stage{padding:0;margin:0}
+  .stage-card{min-height:600px}
+  model-viewer{min-height:600px}
+  .sub{max-width:16ch}
+}
 @media (max-width:600px){
   .site-header{padding:14px 18px}
   .header-tag{display:none}
