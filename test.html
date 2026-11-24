@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.4.0/model-viewer.min.js"></script>
 <title>AR test · Ultra-Mag pallet</title>
 <style>
   body{font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;margin:0;padding:20px;background:#f2f2f0;color:#0e2a33;max-width:560px}
@@ -23,6 +24,13 @@
   <a class="t" id="t2"><b><span class="n">2</span>Our pallet in 3D only (no AR)</b><span>Checks that Google’s viewer can open our file.</span></a>
   <a class="t" id="t3"><b><span class="n">3</span>Our pallet in AR</b><span>Opens our pallet straight in AR. Point at the floor and move the phone slowly.</span></a>
 
+  <div class="t"><b><span class="n">4</span>Our pallet in Chrome AR (no Google app)</b><span>Runs AR inside Chrome instead of Google’s viewer. Tap the button below the model, allow the camera, then point at the floor and move slowly until the pallet appears.</span>
+    <model-viewer id="mv" src="pallet_sceneviewer.glb" ar ar-modes="webxr" ar-scale="fixed" ar-placement="floor" camera-controls style="width:100%;height:240px;margin-top:10px">
+      <button slot="ar-button" style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);border:0;border-radius:999px;padding:10px 18px;background:#064452;color:#fff;font-weight:700">Start Chrome AR</button>
+    </model-viewer>
+    <span id="xr" style="display:block;margin-top:6px"></span>
+  </div>
+
   <p>Device info (please include in your reply):</p>
   <code id="ua"></code>
 
@@ -38,6 +46,10 @@
   document.getElementById('t2').href = sv(base + 'pallet_sceneviewer.glb','3d_only','Ultra-Mag pallet');
   document.getElementById('t3').href = sv(base + 'pallet_sceneviewer.glb','ar_only','Ultra-Mag pallet');
   document.getElementById('ua').textContent = navigator.userAgent + (location.hash === '#fallback' ? '  [last test fell back: viewer could not open]' : '');
+  const mv=document.getElementById('mv'), xr=document.getElementById('xr');
+  mv.addEventListener('load',()=>{ xr.textContent = mv.canActivateAR ? 'Chrome AR is available on this phone.' : 'Chrome AR is NOT available on this phone (needs Google Play Services for AR).'; });
+  mv.addEventListener('ar-status',e=>{ xr.textContent='Chrome AR status: '+e.detail.status; });
+  (navigator.xr ? navigator.xr.isSessionSupported('immersive-ar') : Promise.resolve(false)).then(ok=>{ document.getElementById('ua').textContent += '  [WebXR AR: '+(ok?'yes':'no')+']'; });
 </script>
 </body>
 </html>
