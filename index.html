@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+  (function(){
+    var ua=navigator.userAgent;
+    var ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    var android=/Android/.test(ua);
+    if(ios) location.replace('apple.html'+location.search);
+    else if(android) location.replace('android.html'+location.search);
+  })();
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ultra-Mag Costco Pallet Display · View in AR</title>
 <meta name="description" content="View the Source Naturals Ultra-Mag Costco pallet display at full size in augmented reality.">
@@ -65,16 +75,10 @@
 
   <main>
     <model-viewer id="viewer"
-      ios-src="pallet_ios.usdz#allowsContentScaling=0"
       poster="poster.jpg"
       alt="Ultra-Mag Costco pallet display, six layers of trays on a blue pallet"
-      ar ar-modes="scene-viewer webxr quick-look" ar-scale="fixed" ar-placement="floor"
       camera-controls touch-action="pan-y" shadow-intensity="1" shadow-softness="0.8"
       camera-orbit="-40deg 72deg auto" interaction-prompt="none" loading="eager">
-      <button slot="ar-button" class="ar-btn" id="arBtn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="m3 7 9 5 9-5"/><path d="M12 12v10"/></svg>
-        View in your space
-      </button>
       <div class="hint" id="hint">Drag to rotate · pinch to zoom</div>
     </model-viewer>
   </main>
@@ -101,7 +105,7 @@
     document.body.classList.add('is-desktop');
     note.textContent = '';
     try {
-      const q = qrcode(0, 'M'); q.addData(location.href); q.make();
+      const q = qrcode(0, 'M'); q.addData(location.href.replace(/(apple|android|index)\.html.*$/, '')); q.make();
       document.getElementById('qr').innerHTML = q.createSvgTag({cellSize: 5, margin: 0});
     } catch (e) {}
   } else if (isAndroid && !isChrome) {
@@ -115,7 +119,7 @@
   });
   viewer.addEventListener('load', () => {
     if (!viewer.canActivateAR && (isIOS || isAndroid)) {
-      document.getElementById('arBtn').style.display = 'none';
+      { const b=document.getElementById('arBtn'); if(b) b.style.display='none'; }
       note.innerHTML = 'This device doesn’t support AR, but you can rotate and zoom the 3D model above.';
     }
   });

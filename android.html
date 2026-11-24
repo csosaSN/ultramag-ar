@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ultra-Mag Costco Pallet Display · 3D view</title>
+<meta name="description" content="View the Source Naturals Ultra-Mag Costco pallet display at full size in augmented reality.">
+<meta property="og:title" content="Ultra-Mag Costco Pallet Display · View in AR">
+<meta property="og:image" content="poster.jpg">
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.4.0/model-viewer.min.js"></script>
+<style>
+  :root{
+    --ink:#0e2a33; --teal:#00a6ad; --deep:#064452; --paper:#f2f2f0; --muted:#5d6f74;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family: "Avenir Next", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background:var(--paper); color:var(--ink);
+    display:flex; flex-direction:column; min-height:100dvh;
+  }
+  header{
+    padding:calc(env(safe-area-inset-top) + 18px) 22px 6px;
+    display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;
+  }
+  .eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--teal); font-weight:700}
+  h1{margin:4px 0 0; font-size:clamp(22px,4.2vw,34px); line-height:1.1; font-weight:800; letter-spacing:-.01em}
+  .spec{font-size:13px; color:var(--muted)}
+  main{flex:1; display:flex; flex-direction:column; position:relative; min-height:420px}
+  model-viewer{
+    flex:1; width:100%; min-height:420px; background:transparent;
+    --poster-color: transparent;
+    --progress-bar-color: var(--teal);
+  }
+  .ar-btn{
+    position:absolute; left:50%; bottom:calc(env(safe-area-inset-bottom) + 22px); transform:translateX(-50%);
+    border:0; border-radius:999px; padding:16px 28px;
+    background:var(--deep); color:#fff; font:inherit; font-size:17px; font-weight:700; letter-spacing:.01em;
+    display:flex; align-items:center; gap:10px; box-shadow:0 8px 24px rgba(6,68,82,.28); cursor:pointer;
+  }
+  .ar-btn svg{width:22px; height:22px}
+  .ar-btn:active{transform:translateX(-50%) scale(.97)}
+  .note{
+    margin:0 auto; max-width:560px; padding:10px 22px calc(env(safe-area-inset-bottom) + 24px);
+    font-size:14px; line-height:1.45; color:var(--muted); text-align:center;
+  }
+  .note strong{color:var(--ink)}
+  .desktop{display:none; align-items:center; gap:22px; justify-content:center; padding:6px 22px 30px}
+  .desktop #qr{background:#fff; padding:10px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .desktop p{max-width:300px; margin:0; font-size:15px; line-height:1.45}
+  body.is-desktop .desktop{display:flex}
+  body.is-desktop .ar-btn{display:none}
+  .hint{position:absolute; top:12px; left:50%; transform:translateX(-50%); font-size:12px; color:var(--muted);
+        background:rgba(255,255,255,.75); padding:6px 12px; border-radius:999px; pointer-events:none; white-space:nowrap}
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <div class="eyebrow">Source Naturals · Costco</div>
+      <h1>Ultra-Mag Pallet Display</h1>
+    </div>
+    <div class="spec">48 × 40 in pallet · 6 layers · shown at true size</div>
+  </header>
+
+  <main>
+    <model-viewer id="viewer"
+      poster="poster.jpg"
+      alt="Ultra-Mag Costco pallet display, six layers of trays on a blue pallet"
+      camera-controls touch-action="pan-y" shadow-intensity="1" shadow-softness="0.8"
+      camera-orbit="-40deg 72deg auto" interaction-prompt="none" loading="eager">
+      <div class="hint" id="hint">Drag to rotate · pinch to zoom</div>
+    </model-viewer>
+  </main>
+
+  <section class="desktop">
+    <div id="qr"></div>
+    <p><strong>Open this on your phone to see it in AR.</strong><br>Scan the code with your iPhone or Android camera, then tap <em>View in your space</em> and point at the floor.</p>
+  </section>
+
+  <p class="note" id="note"><strong>Drag</strong> to rotate, <strong>pinch</strong> to zoom and <strong>two-finger drag</strong> to move around the pallet.</p>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/.test(ua);
+  const isChrome = /Chrome\//.test(ua) && !/EdgA|SamsungBrowser|OPR|Firefox|FxiOS/.test(ua);
+  const note = document.getElementById('note');
+  const viewer = document.getElementById('viewer');
+  // Phones get the light 9.7 MB model for the 3D preview (and Scene Viewer on Android); computers get the sharper one
+  viewer.src = 'pallet_sceneviewer.glb';
+
+  if (!isIOS && !isAndroid) {
+    document.body.classList.add('is-desktop');
+    note.textContent = '';
+    try {
+      const q = qrcode(0, 'M'); q.addData(location.href.replace(/(apple|android|index)\.html.*$/, '')); q.make();
+      document.getElementById('qr').innerHTML = q.createSvgTag({cellSize: 5, margin: 0});
+    } catch (e) {}
+  }
+
+  viewer.addEventListener('camera-change', (e) => {
+    if (e.detail.source === 'user-interaction') document.getElementById('hint').style.display = 'none';
+  }, {once: true});
+</script>
+</body>
+</html>
